@@ -30,21 +30,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.media.AudioManagerCompat;
 
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.analytics.AnalyticsListener;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.text.Cue;
-import com.google.android.exoplayer2.text.CueGroup;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.TimeBar;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.MimeTypes;
+import com.google.common.collect.ImmutableList;
 import com.rarestardev.videovibe.Listener.SubtitleFilesSaveState;
 import com.rarestardev.videovibe.R;
 import com.rarestardev.videovibe.Utilities.FormatViews;
@@ -52,8 +47,6 @@ import com.rarestardev.videovibe.databinding.ActivityVideoPlayerBinding;
 import com.rarestardev.videovibe.databinding.CustomPlaybackViewBinding;
 import com.rarestardev.videovibe.databinding.SwipeZoomDesignBinding;
 
-import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFilesSaveState {
@@ -67,7 +60,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
     private Handler handler;
     private Runnable runnable;
     ControlsMode controlsMode;
-    private List<SRTParser.Subtitle> subtitles;
 
     private enum ControlsMode {LOCK, FULLSCREEN}
 
@@ -85,6 +77,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
     private boolean playWhenReady = true;
 
     private static final String LOG = "MyApp";
+
+    MediaItem.SubtitleConfiguration subtitle;
+    MediaItem mediaItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +107,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
             Intent i = new Intent("com.android.music.musicservicecommand");
             i.putExtra("command", "pause");
             sendBroadcast(i);
-        }else {
+        } else {
             doInitialize();
         }
     }
@@ -122,126 +117,26 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         playbackViewBinding.videoName.setText(getIntent().getStringExtra("VideoName"));
 
         if (videoPath == null) {
-            Log.e(LOG,"Video Path is empty");
+            Log.e(LOG, "Video Path is empty");
             return;
         }
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleDetector());
 
 
-        initializePlayer(false,null);
+        initializePlayer();
 
         SwipeTouchListener();
 
         onClickPlayerViews();
     }
 
-    private void initializePlayer(boolean isSubtitle,List<SRTParser.Subtitle> subtitles) {
-        if (player == null) {
-            player = new ExoPlayer.Builder(this).build();
-            binding.exoplayerView.setPlayer(player);
-        }
+    private void initializePlayer() {
+        player = new ExoPlayer.Builder(this).build();
+        binding.exoplayerView.setPlayer(player);
 
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this,"user-agent");
-        MediaSource videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoPath));
-        if (!isSubtitle){
-            player.addListener(new Player.Listener() {
-                @Override
-                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                    if (playbackState == Player.STATE_READY) {
-                        long duration = player.getDuration();
-                        playbackViewBinding.exoProgress.setDuration(duration);
-                        playbackViewBinding.exoPosition.setText(FormatViews.formatTime(duration));
-                    }
-                }
-
-                @Override
-                public void onPlayerError(@NonNull PlaybackException error) {
-                    Toast.makeText(VideoPlayerActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e(LOG,error.getMessage());
-                }
-
-            });
-
-            player.prepare(videoSource);
-            player.setPlayWhenReady(true);
-        }else {
-
-            if (subtitles != null){
-                player.addListener(new Player.Listener() {
-                    @Override
-                    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                        if (playbackState == Player.STATE_READY) {
-                            long duration = player.getDuration();
-                            playbackViewBinding.exoProgress.setDuration(duration);
-                            playbackViewBinding.exoPosition.setText(FormatViews.formatTime(duration));
-                        }
-                    }
-
-                    @Override
-                    public void onPlayerError(@NonNull PlaybackException error) {
-                        Toast.makeText(VideoPlayerActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e(LOG,error.getMessage());
-                    }
-
-                    @Override
-                    public void onCues(@NonNull CueGroup cueGroup) {
-                        List<Cue> cues = cueGroup.cues;
-
-                        if (!cues.isEmpty()) {
-                            for (Cue cue : cues) {
-                                Log.d(LOG, "Subtitle: " + cue.text + " at position: " + cue.position);
-                            }
-                        } else {
-                            Log.d(LOG, "No subtitles available.");
-                        }
-                        Player.Listener.super.onCues(cueGroup);
-                    }
-
-                    @Override
-                    public void onCues(@NonNull List<Cue> cues) {
-                        Log.d(LOG, "onCues called with " + cues.size() + " cues");
-
-                        if (!cues.isEmpty()) {
-                            Cue cue = cues.get(0);
-                            binding.exoSubtitles.setText(cue.text);
-                            binding.exoSubtitles.setVisibility(View.VISIBLE);
-                        } else {
-                            binding.exoSubtitles.setVisibility(View.GONE);
-                            Log.d(LOG, "No subtitles available or they are not loaded.");
-                            binding.exoSubtitles.setText("");
-                        }
-                    }
-
-                });
-
-                player.prepare(videoSource);
-                player.setPlayWhenReady(true);
-
-                new Thread(() -> {
-                    while (true){
-                        long currentPosition = player.getCurrentPosition();
-
-                        for (SRTParser.Subtitle subtitle:subtitles){
-                            if (currentPosition >= subtitle.startTime && currentPosition <= subtitle.endTime){
-                                runOnUiThread(() -> binding.exoSubtitles.setText(subtitle.text));
-                            }
-                        }
-
-                        try {
-                            Thread.sleep(500);
-                        }catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-            }else {
-                Log.e(LOG,"ERROR");
-            }
-
-
-        }
-
-
+        mediaItem = new MediaItem.Builder().setUri(videoPath).build();
+        player.addMediaItem(mediaItem);
+        player.prepare();
 
         handler = new Handler();
         runnable = new Runnable() {
@@ -255,6 +150,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         };
         handler.post(runnable);
 
+        HandlePlayerListener();
+
         ExoTimeBarListener();
 
         playbackViewBinding.exoPlayPause.setImageResource(R.drawable.baseline_pause_24);
@@ -262,31 +159,88 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         playbackViewBinding.icMute.setImageResource(R.drawable.baseline_volume_down_24);
     }
 
+    private void addSubtitle(String subtitlePath) {
+        subtitle = new MediaItem.SubtitleConfiguration.Builder(Uri.parse(subtitlePath))
+                .setMimeType(MimeTypes.APPLICATION_SUBRIP)
+                .setLanguage("fa")
+                .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+                .build();
+
+        MediaItem updatedMediaItem = mediaItem.buildUpon()
+                .setSubtitleConfigurations(ImmutableList.of(subtitle))
+                .build();
+
+        player.setMediaItem(updatedMediaItem, player.getCurrentPosition());
+        player.prepare();
+        HandlePlayerListener();
+    }
+
+    private void HandlePlayerListener() {
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                if (playbackState == Player.STATE_READY) {
+                    long duration = player.getDuration();
+                    playbackViewBinding.exoProgress.setDuration(duration);
+                    playbackViewBinding.exoPosition.setText(FormatViews.formatTime(duration));
+                }
+            }
+
+            @Override
+            public void onPlayerError(@NonNull PlaybackException error) {
+                Toast.makeText(VideoPlayerActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(LOG, error.getMessage());
+            }
+
+            @Override
+            public void onCues(@NonNull List<Cue> cues) {
+                if (!cues.isEmpty()) {
+                    Log.d(LOG, "subtitles available.");
+
+                    playbackViewBinding.tvSubtitle.setVisibility(View.VISIBLE);
+
+                    for (Cue cue : cues) {
+                        Log.d(LOG, "Subtitle: " + cue.text + " at position: " + cue.position);
+                        playbackViewBinding.tvSubtitle.setText(cue.text);
+                        Log.d(LOG, "SubtitleTextView: " + playbackViewBinding.tvSubtitle.getText());
+                    }
+
+                } else {
+                    Log.e(LOG, "No subtitles available.");
+                    playbackViewBinding.tvSubtitle.setVisibility(View.GONE);
+                    playbackViewBinding.tvSubtitle.setText("");
+                }
+            }
+        });
+    }
+
+
     @Override
     public void subtitlePath(String path) {
-        if (!path.isEmpty()){
-
-            SRTParser parser = new SRTParser();
-            List<SRTParser.Subtitle> subtitles = parser.parseSRT(path);
-            initializePlayer(true,subtitles);
-
-        }else {
-            Log.e(LOG,"Path isEmpty");
+        if (!path.isEmpty()) {
+            Log.d(LOG, "Path : " + path);
+            addSubtitle(path);
+        } else {
+            Log.e(LOG, "Path isEmpty");
         }
     }
 
+
     private void ExoTimeBarListener() {
         playbackViewBinding.exoProgress.addListener(new TimeBar.OnScrubListener() {
-            @Override
-            public void onScrubStart(TimeBar timeBar, long l) {}
 
             @Override
-            public void onScrubMove(TimeBar timeBar, long l) {
+            public void onScrubStart(@NonNull TimeBar timeBar, long l) {
+
+            }
+
+            @Override
+            public void onScrubMove(@NonNull TimeBar timeBar, long l) {
                 player.seekTo(l);
             }
 
             @Override
-            public void onScrubStop(TimeBar timeBar, long l, boolean b) {
+            public void onScrubStop(@NonNull TimeBar timeBar, long l, boolean b) {
                 player.seekTo(l);
             }
         });
