@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#242424</color>
+
+    <color name="white">#E9E9E9</color>
+
+    <color name="baseColorLightMode">#E9E8E8</color>
+    <color name="baseColorNightMode">#101010</color>
+
+    <color name="iconTintLightMode">#181818</color>
+    <color name="iconTintNightMode">#DCDBDB</color>
+    <color name="button_color">#82458C</color>
+    <color name="nightMode">#80000000</color>
+    <color name="black_light">#00000000</color>
+    <color name="bg_btnPlay">#DAA30101</color>
+
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#94555454</color>
+</resources>

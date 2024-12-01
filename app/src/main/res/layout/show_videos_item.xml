@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/videoItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/video_folder_item_shape"
+    android:foreground="?selectableItemBackgroundBorderless"
+    android:padding="10dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/thumbnailVideosImageView"
+        android:layout_width="140dp"
+        android:layout_height="90dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="@dimen/cornerRadius"
+        tools:src="@tools:sample/avatars" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/iconSize"
+        android:layout_height="@dimen/iconSize"
+        android:src="@drawable/baseline_play_circle_filled_24"
+        app:layout_constraintBottom_toBottomOf="@id/thumbnailVideosImageView"
+        app:layout_constraintEnd_toEndOf="@id/thumbnailVideosImageView"
+        app:layout_constraintStart_toStartOf="@id/thumbnailVideosImageView"
+        app:layout_constraintTop_toTopOf="@id/thumbnailVideosImageView" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/videoName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/thumbnailVideosImageView"
+        app:layout_constraintTop_toTopOf="@id/thumbnailVideosImageView"
+        tools:text="@string/app_name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/videoInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textColor="@color/button_color"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/videoPath"
+        app:layout_constraintEnd_toEndOf="@id/videoName"
+        app:layout_constraintStart_toStartOf="@id/videoName"
+        app:layout_constraintTop_toBottomOf="@id/videoName"
+        tools:text="@string/app_name" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/videoPath"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@id/thumbnailVideosImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/thumbnailVideosImageView"
+        tools:text="@string/app_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

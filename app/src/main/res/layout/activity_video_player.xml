@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".VideoPlayer.VideoPlayerActivity">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/exoplayer_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:background="@color/black"
+            app:controller_layout_id="@layout/custom_playback_view"
+            app:hide_on_touch="true"
+            app:player_layout_id="@layout/exo_layout_view"
+            app:resize_mode="fit"
+            app:show_timeout="5000"
+            app:shutter_background_color="@color/black"
+            app:surface_type="surface_view"
+            app:use_controller="true" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/exo_subtitles"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/video_folder_item_shape"
+            android:layout_marginStart="20dp"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="20dp"/>
+
+
+    </RelativeLayout>
+</layout>

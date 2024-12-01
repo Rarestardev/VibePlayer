@@ -1,0 +1,36 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.VideoVibe" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/baseColorLightMode</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/normalTextSize</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="iconTint">@color/black</item>
+        <item name="hintTextColor">#838282</item>
+        <item name="android:statusBarColor">@color/actionBarColor</item>
+        <item name="android:navigationBarColor">@color/actionBarColor</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.VideoVibe" parent="Base.Theme.VideoVibe" />
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+
+    <color name="cardBgColor">#CCCCCC</color>
+    <color name="dialog_bg">#CAC8C8</color>
+    <color name="actionBarColor">#DCDCDC</color>
+
+    <style name="VideoPlayerIndicator" parent="LoadingProgressBar"/>
+
+    <style name="LoadingProgressBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/loading_rectangle</item>
+    </style>
+
+</resources>

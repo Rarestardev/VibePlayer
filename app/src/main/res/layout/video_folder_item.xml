@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/video_folder_item_shape"
+    android:layout_marginBottom="5dp"
+    android:id="@+id/videoFolderLayout"
+    android:padding="10dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/folderIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/icon_folder"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/iconSize"
+        android:layout_height="@dimen/iconSize"
+        android:src="@drawable/baseline_play_circle_filled_24"
+        app:layout_constraintStart_toStartOf="@id/folderIcon"
+        app:layout_constraintEnd_toEndOf="@id/folderIcon"
+        app:layout_constraintTop_toTopOf="@id/folderIcon"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/folderIcon"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvVideoFolderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        app:layout_constraintStart_toEndOf="@id/folderIcon"
+        app:layout_constraintTop_toTopOf="@id/folderIcon"
+        android:layout_marginTop="15dp"
+        tools:text="@string/app_name"
+        android:layout_marginStart="15dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:ellipsize="end"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/videoNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tvVideoFolderName"
+        app:layout_constraintStart_toEndOf="@id/tvVideoFolderName"
+        app:layout_constraintBottom_toBottomOf="@id/tvVideoFolderName"
+        tools:text="( 55555 )"
+        android:layout_marginStart="10dp"
+        android:textStyle="bold"
+        android:maxLines="1"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/videoPath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/folderIcon"
+        app:layout_constraintStart_toEndOf="@id/folderIcon"
+        tools:text="@string/app_name"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:textStyle="normal"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/folderLayout"
+    android:layout_marginBottom="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/video_folder_item_shape"
+    android:foreground="?selectableItemBackgroundBorderless"
+    android:padding="@dimen/layoutPadding">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/folderIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_folder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/srt"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/folderIcon"
+        app:layout_constraintEnd_toEndOf="@id/folderIcon"
+        app:layout_constraintStart_toStartOf="@id/folderIcon"
+        app:layout_constraintTop_toTopOf="@id/folderIcon" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFolderName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/folderIcon"
+        app:layout_constraintTop_toTopOf="@id/folderIcon"
+        tools:text="@string/app_name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFolderPath"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/folderIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/folderIcon"
+        tools:text="@string/app_name" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

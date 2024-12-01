@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Video Vibe</string>
+    <string name="searchHint">Search …</string>
+    <string name="newest">Newest</string>
+    <string name="VerticalView">Vertical</string>
+    <string name="notPermission">The program does not have access to videos!</string>
+    <string name="giveAccess">Give Access</string>
+    <string name="viewMode">View Mode</string>
+    <string name="listview">ListView</string>
+    <string name="orderBy">Based On</string>
+    <string name="oldest">Oldest</string>
+    <string name="settings">Settings</string>
+    <string name="showPathVideos">Show path videos</string>
+    <string name="gridview">GridView</string>
+
+
+    <string name="nightMode">NightMode</string>
+    <string name="rotate">Rotate</string>
+    <string name="vol_up">Volume up</string>
+    <string name="play_speed">Speed</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="EQ">EQ</string>
+    <string name="version">v 1.0</string>
+    <string name="btn_back">Back</string>
+    <string name="brightness">Brightness</string>
+    <string name="volume">Volume</string>
+    <string name="mute">Mute</string>
+    <string name="btn_pause_download">Pause</string>
+    <string name="srt">SRT</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="normalTextSize">14sp</dimen>
+    <dimen name="iconSize">28dp</dimen>
+    <dimen name="layoutPadding">10dp</dimen>
+    <dimen name="cornerRadius">10dp</dimen>
+    <dimen name="playerIconSize">40dp</dimen>
+    <dimen name="playerIconPadding">4dp</dimen>
+
+</resources>

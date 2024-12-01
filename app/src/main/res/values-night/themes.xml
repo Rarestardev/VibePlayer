@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.VideoVibe" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/baseColorNightMode</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/normalTextSize</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="iconTint">@color/iconTintNightMode</item>
+        <item name="hintTextColor">#545353</item>
+        <item name="android:statusBarColor">@color/actionBarColor</item>
+        <item name="android:navigationBarColor">@color/actionBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+
+
+    <color name="cardBgColor">#262626</color>
+    <color name="dialog_bg">#1A1A1A</color>
+    <color name="actionBarColor">#141414</color>
+</resources>
