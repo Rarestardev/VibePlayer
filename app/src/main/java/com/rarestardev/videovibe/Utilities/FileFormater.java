@@ -1,8 +1,9 @@
 package com.rarestardev.videovibe.Utilities;
 
+import java.text.DecimalFormat;
 import java.util.Locale;
 
-public class FormatViews {
+public class FileFormater {
 
     public static String formatTime(long millis) {
         int seconds = (int) (millis / 1000) % 60;
@@ -22,6 +23,13 @@ public class FormatViews {
             durationValue = String.format(Locale.getDefault(), "%1$d:%2$02d:%3$02d", h, m, s);
         }
         return durationValue;
+    }
+
+    public static String formatFileSize(long size) {
+        if (size <= 0) return "0 B";
+        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
 }

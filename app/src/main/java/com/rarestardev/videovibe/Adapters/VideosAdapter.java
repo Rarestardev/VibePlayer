@@ -16,6 +16,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.rarestardev.videovibe.Listener.VideosListener;
 import com.rarestardev.videovibe.Model.VideoModel;
 import com.rarestardev.videovibe.R;
+import com.rarestardev.videovibe.Utilities.FileFormater;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosView
 
         videosViewHolder.videoName.setText(videoModel.getVideoName());
         videosViewHolder.videoPath.setText(videoModel.getVideoPath());
-        videosViewHolder.videoInfo.setText(formatDuration(videoModel.getDuration()) + " -- " + formatSize(videoModel.getSize()));
+        videosViewHolder.videoInfo.setText(FileFormater.formatTime(videoModel.getDuration()) + " -- " + FileFormater.formatFileSize(videoModel.getSize()));
 
         Glide.with(context)
                 .load(videoModel.getVideoFile())
@@ -57,20 +58,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosView
     @Override
     public int getItemCount() {
         return videos.size();
-    }
-
-    @SuppressLint("DefaultLocale")
-    private String formatSize(long size) {
-        double fileSizeInMB = size / (1024.0 * 1024.0);
-        return String.format("%.2f MB", fileSizeInMB);
-    }
-
-    @SuppressLint("DefaultLocale")
-    private String formatDuration(long duration) {
-        long hour = duration / 1000;
-        long min = (duration / 1000) / 60;
-        long sec = (duration / 1000) % 60;
-        return String.format("%02d:%02d",min,sec);
     }
 
     public static class VideosViewHolder extends RecyclerView.ViewHolder {

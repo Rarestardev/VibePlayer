@@ -7,19 +7,21 @@
 
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:theme="@style/TransparentStatusBar"
         tools:context=".VideoPlayer.VideoPlayerActivity">
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/exoplayer_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/black"
             app:controller_layout_id="@layout/custom_playback_view"
             app:hide_on_touch="true"
@@ -31,5 +33,5 @@
             app:use_controller="true" />
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

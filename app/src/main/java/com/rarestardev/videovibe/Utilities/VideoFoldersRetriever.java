@@ -15,16 +15,20 @@ import com.rarestardev.videovibe.Model.VideoModel;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class VideoFoldersRetriever {
+
+    private static final List<String> SUPPORTED_FORMATS = Arrays.asList(".mp4", ".avi", ".mov", ".mkv", ".flv");
 
     public static ArrayList<VideoFolderModel> getVideoFolders(Context context) {
         SecurePreferences securePreferences = new SecurePreferences(context);
         String state = securePreferences.getSecureString(SharedPrefEnum.Order.name(), SharedPrefKeyEnum.BasedState.name());
         String order = "";
-        if (state.equals(OrderStateEnum.Newest.name())){
+        if (state.equals(OrderStateEnum.Newest.name())) {
             order = " DESC";
         } else if (state.equals(OrderStateEnum.Oldest.name())) {
             order = " ASC";
@@ -56,17 +60,15 @@ public class VideoFoldersRetriever {
     public static ArrayList<VideoModel> getVideosFromFolder(String folderPath) {
         ArrayList<VideoModel> videos = new ArrayList<>();
         File folder = new File(folderPath);
-
-        if (folder.exists() && folder.isDirectory()){
+        if (folder.exists() && folder.isDirectory()) {
             File[] files = folder.listFiles();
-
-            if (files != null){
-                for (File file : files){
-                    if (file.isFile() && (file.getName().endsWith(".mp4")) || (file.getName().endsWith(".avi")) || (file.getName().endsWith(".mov"))){
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile() && isSupportedFormat(file.getName())) {
                         long size = file.length();
                         long duration = getVideoDuration(file);
                         String path = file.getPath();
-                        videos.add(new VideoModel(file.getName(),path,file,duration,size));
+                        videos.add(new VideoModel(file.getName(), path, file, duration, size));
                     }
                 }
             }
@@ -74,7 +76,16 @@ public class VideoFoldersRetriever {
         return videos;
     }
 
-    private static long getVideoDuration(File videoFile){
+    private static boolean isSupportedFormat(String fileName) {
+        for (String format : SUPPORTED_FORMATS) {
+            if (fileName.toLowerCase().endsWith(format)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static long getVideoDuration(File videoFile) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(videoFile.getAbsolutePath());
         String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);

@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,6 +20,9 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -42,7 +46,7 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.common.collect.ImmutableList;
 import com.rarestardev.videovibe.Listener.SubtitleFilesSaveState;
 import com.rarestardev.videovibe.R;
-import com.rarestardev.videovibe.Utilities.FormatViews;
+import com.rarestardev.videovibe.Utilities.FileFormater;
 import com.rarestardev.videovibe.databinding.ActivityVideoPlayerBinding;
 import com.rarestardev.videovibe.databinding.CustomPlaybackViewBinding;
 import com.rarestardev.videovibe.databinding.SwipeZoomDesignBinding;
@@ -60,6 +64,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
     private Handler handler;
     private Runnable runnable;
     ControlsMode controlsMode;
+    private MediaItem mediaItem;
+    private CountDownTimer countDownTimer;
 
     private enum ControlsMode {LOCK, FULLSCREEN}
 
@@ -71,15 +77,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
     private static final int MAX_VIDEO_STEP_TIME = 60 * 1000;
     private static final int MAX_BRIGHTNESS = 100;
     private String videoPath;
+    private String subtitlePath;
     private int targetTime;
     private int totalTime;
     private long currentDurationPlayer;
     private boolean playWhenReady = true;
+    private float previousVolume;
 
     private static final String LOG = "MyApp";
 
-    MediaItem.SubtitleConfiguration subtitle;
-    MediaItem mediaItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +99,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         if (savedInstanceState != null) {
             currentDurationPlayer = savedInstanceState.getLong("playback_position");
             playWhenReady = savedInstanceState.getBoolean("play_when_ready");
+            subtitlePath = savedInstanceState.getString("subtitlePath");
+            if (subtitlePath != null) {
+                addSubtitle();
+            }
         }
     }
 
@@ -118,8 +128,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
 
         if (videoPath == null) {
             Log.e(LOG, "Video Path is empty");
+            Toast.makeText(this, "Wrong video !", Toast.LENGTH_SHORT).show();
+            finish();
             return;
         }
+        player = new ExoPlayer.Builder(this).build();
+        binding.exoplayerView.setPlayer(player);
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleDetector());
 
 
@@ -131,9 +145,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
     }
 
     private void initializePlayer() {
-        player = new ExoPlayer.Builder(this).build();
-        binding.exoplayerView.setPlayer(player);
-
         mediaItem = new MediaItem.Builder().setUri(videoPath).build();
         player.addMediaItem(mediaItem);
         player.prepare();
@@ -143,7 +154,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
             @Override
             public void run() {
                 long currentPosition = player.getCurrentPosition();
-                playbackViewBinding.exoDuration.setText(FormatViews.formatTime(currentPosition));
+                playbackViewBinding.exoDuration.setText(FileFormater.formatTime(currentPosition));
                 playbackViewBinding.exoProgress.setPosition(currentPosition);
                 handler.postDelayed(this, 1000);
             }
@@ -151,16 +162,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         handler.post(runnable);
 
         HandlePlayerListener();
-
-        ExoTimeBarListener();
-
-        playbackViewBinding.exoPlayPause.setImageResource(R.drawable.baseline_pause_24);
-        playbackViewBinding.nightMode.setVisibility(View.GONE);
-        playbackViewBinding.icMute.setImageResource(R.drawable.baseline_volume_down_24);
     }
 
-    private void addSubtitle(String subtitlePath) {
-        subtitle = new MediaItem.SubtitleConfiguration.Builder(Uri.parse(subtitlePath))
+    private void addSubtitle() {
+        MediaItem.SubtitleConfiguration subtitle = new MediaItem.SubtitleConfiguration.Builder(Uri.parse(subtitlePath))
                 .setMimeType(MimeTypes.APPLICATION_SUBRIP)
                 .setLanguage("fa")
                 .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
@@ -182,7 +187,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
                 if (playbackState == Player.STATE_READY) {
                     long duration = player.getDuration();
                     playbackViewBinding.exoProgress.setDuration(duration);
-                    playbackViewBinding.exoPosition.setText(FormatViews.formatTime(duration));
+                    playbackViewBinding.exoPosition.setText(FileFormater.formatTime(duration));
+
+                    playbackViewBinding.exoPlayPause.setImageResource(R.drawable.baseline_pause_24);
+                    playbackViewBinding.nightMode.setVisibility(View.GONE);
+                    playbackViewBinding.icMute.setImageResource(R.drawable.baseline_volume_down_24);
+
+                    ExoTimeBarListener();
+                    HideViewsOnVideosWithTimer();
+                } else {
+                    playbackViewBinding.exoPlayPause.setImageResource(R.drawable.baseline_play_arrow_24);
+                    ShowViewsOnVideos();
                 }
             }
 
@@ -195,14 +210,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
             @Override
             public void onCues(@NonNull List<Cue> cues) {
                 if (!cues.isEmpty()) {
-                    Log.d(LOG, "subtitles available.");
-
                     playbackViewBinding.tvSubtitle.setVisibility(View.VISIBLE);
-
                     for (Cue cue : cues) {
-                        Log.d(LOG, "Subtitle: " + cue.text + " at position: " + cue.position);
                         playbackViewBinding.tvSubtitle.setText(cue.text);
-                        Log.d(LOG, "SubtitleTextView: " + playbackViewBinding.tvSubtitle.getText());
                     }
 
                 } else {
@@ -214,21 +224,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         });
     }
 
-
     @Override
     public void subtitlePath(String path) {
         if (!path.isEmpty()) {
-            Log.d(LOG, "Path : " + path);
-            addSubtitle(path);
+            Log.d(LOG, "SubtitlePath : " + path);
+            subtitlePath = path;
+            addSubtitle();
         } else {
             Log.e(LOG, "Path isEmpty");
         }
     }
 
-
     private void ExoTimeBarListener() {
         playbackViewBinding.exoProgress.addListener(new TimeBar.OnScrubListener() {
-
             @Override
             public void onScrubStart(@NonNull TimeBar timeBar, long l) {
 
@@ -264,21 +272,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
             public boolean onSingleTap() {
                 super.onSingleTap();
                 if (playbackViewBinding.toolbar.getVisibility() == View.VISIBLE) {
-                    playbackViewBinding.toolbar.setVisibility(View.GONE);
-                    playbackViewBinding.progress.setVisibility(View.GONE);
-                    playbackViewBinding.menuItems.setVisibility(View.GONE);
-                    playbackViewBinding.bottomIcons.setVisibility(View.GONE);
-                    // fullscreen mode
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                            View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                    HideViewsOnVideos();
                 } else {
-                    playbackViewBinding.toolbar.setVisibility(View.VISIBLE);
-                    playbackViewBinding.menuItems.setVisibility(View.VISIBLE);
-                    playbackViewBinding.progress.setVisibility(View.VISIBLE);
-                    playbackViewBinding.bottomIcons.setVisibility(View.VISIBLE);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                    ShowViewsOnVideos();
+                    HideViewsOnVideosWithTimer();
                 }
                 return true;
             }
@@ -383,12 +380,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
                 targetTime = startVideoTime + (int) (MAX_VIDEO_STEP_TIME * adjustPercent * (positiveAdjustPercent / 0.1));
 
                 if (targetTime > totalTime) {
-                    totalTime = (int) player.getDuration();
+                    targetTime = (int) player.getDuration();
                 }
                 if (targetTime < 0) {
                     targetTime = totalTime;
                 }
-                String targetTimeString = FormatViews.formatDuration(targetTime / 1000);
+                String targetTimeString = FileFormater.formatDuration(targetTime / 1000);
 
                 if (forwardDirection) {
                     playbackViewBinding.indicatorImageView.setImageResource(R.drawable.baseline_fast_forward_24);
@@ -408,11 +405,56 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         });
     }
 
+    private void HideViewsOnVideosWithTimer() {
+        countDownTimer = new CountDownTimer(8000, 1000) {
+            @Override
+            public void onTick(long l) {
+                playbackViewBinding.voidViewId.setOnClickListener(view -> {
+                    if (playbackViewBinding.toolbar.getVisibility() == View.VISIBLE) {
+                        HideViewsOnVideos();
+                    } else {
+                        ShowViewsOnVideos();
+                        this.start();
+                    }
+                });
+            }
+
+            @Override
+            public void onFinish() {
+                HideViewsOnVideos();
+                this.cancel();
+            }
+        }.start();
+    }
+
+    private void HideViewsOnVideos() {
+        playbackViewBinding.toolbar.setVisibility(View.GONE);
+        playbackViewBinding.progress.setVisibility(View.GONE);
+        playbackViewBinding.menuItems.setVisibility(View.GONE);
+        playbackViewBinding.bottomIcons.setVisibility(View.GONE);
+        // fullscreen mode
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        countDownTimer.cancel();
+    }
+
+    private void ShowViewsOnVideos() {
+        playbackViewBinding.toolbar.setVisibility(View.VISIBLE);
+        playbackViewBinding.menuItems.setVisibility(View.VISIBLE);
+        playbackViewBinding.progress.setVisibility(View.VISIBLE);
+        playbackViewBinding.bottomIcons.setVisibility(View.VISIBLE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+    }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("playback_position", currentDurationPlayer);
         outState.putBoolean("play_when_ready", playWhenReady);
+        outState.putString("subtitlePath", subtitlePath);
     }
 
     @SuppressLint("Range")
@@ -438,6 +480,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
             if (player != null) {
                 player.release();
             }
+            countDownTimer.cancel();
             finish();
         });
 
@@ -465,23 +508,27 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
                 player.play();
                 playbackViewBinding.exoPlayPause.setImageResource(R.drawable.baseline_pause_24);
             }
+            HandlePlayerListener();
         });
 
         playbackViewBinding.icNight.setOnClickListener(view -> {
             if (playbackViewBinding.nightMode.getVisibility() == View.VISIBLE) {
                 playbackViewBinding.nightMode.setVisibility(View.GONE);
+                rotateAndChangeIcon(playbackViewBinding.icNight, R.drawable.icon_light_mode);
             } else {
                 playbackViewBinding.nightMode.setVisibility(View.VISIBLE);
+                rotateAndChangeIcon(playbackViewBinding.icNight, R.drawable.baseline_nights_stay_24);
             }
         });
 
         playbackViewBinding.icMute.setOnClickListener(view -> {
-            if (player.getVolume() == 100) {
-                player.setVolume(0);
-                playbackViewBinding.icMute.setImageResource(R.drawable.baseline_volume_mute_24);
+            if (player.getVolume() > 0f) {
+                previousVolume = player.getVolume();
+                player.setVolume(0f);
+                rotateAndChangeIcon(playbackViewBinding.icMute, R.drawable.baseline_volume_mute_24);
             } else {
-                player.setVolume(100);
-                playbackViewBinding.icMute.setImageResource(R.drawable.baseline_volume_down_24);
+                player.setVolume(previousVolume);
+                rotateAndChangeIcon(playbackViewBinding.icMute, R.drawable.baseline_volume_down_24);
             }
         });
 
@@ -602,6 +649,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         }
     };
 
+    private void rotateAndChangeIcon(ImageView icon, int drawable) {
+        Animation rotate = AnimationUtils.loadAnimation(this, R.anim.rotate_anim);
+        icon.startAnimation(rotate);
+        rotate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                icon.setImageResource(drawable);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
     private class ScaleDetector extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @SuppressLint("SetTextI18n")
         @Override
@@ -628,7 +694,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         currentDurationPlayer = player.getCurrentPosition();
         playWhenReady = player.getPlayWhenReady();
         player.pause();
-        handler.removeCallbacks(runnable);
         super.onPause();
     }
 
@@ -636,7 +701,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
     protected void onRestart() {
         player.setPlayWhenReady(true);
         player.release();
+        countDownTimer.cancel();
         super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d(LOG,"onStop");
+        currentDurationPlayer = player.getCurrentPosition();
+        playWhenReady = player.getPlayWhenReady();
+        player.pause();
+        super.onStop();
     }
 
     @Override
@@ -653,5 +728,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         super.onDestroy();
         player.release();
         player = null;
+        countDownTimer.cancel();
     }
 }

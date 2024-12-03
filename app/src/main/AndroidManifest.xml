@@ -29,7 +29,10 @@
             android:exported="false" />
         <activity
             android:name=".VideoPlayer.VideoPlayerActivity"
-            android:exported="false" />
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:screenOrientation="unspecified"
+            tools:ignore="DiscouragedApi" />
         <activity
             android:name=".Views.FolderVideosActivity"
             android:exported="false" />
