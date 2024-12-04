@@ -6,9 +6,6 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.rarestardev.videovibe.Enum.OrderStateEnum;
-import com.rarestardev.videovibe.Enum.SharedPrefEnum;
-import com.rarestardev.videovibe.Enum.SharedPrefKeyEnum;
 import com.rarestardev.videovibe.Model.VideoFolderModel;
 import com.rarestardev.videovibe.Model.VideoModel;
 
@@ -24,22 +21,13 @@ public class VideoFoldersRetriever {
 
     private static final List<String> SUPPORTED_FORMATS = Arrays.asList(".mp4", ".avi", ".mov", ".mkv", ".flv");
 
-    public static ArrayList<VideoFolderModel> getVideoFolders(Context context) {
-        SecurePreferences securePreferences = new SecurePreferences(context);
-        String state = securePreferences.getSecureString(SharedPrefEnum.Order.name(), SharedPrefKeyEnum.BasedState.name());
-        String order = "";
-        if (state.equals(OrderStateEnum.Newest.name())) {
-            order = " DESC";
-        } else if (state.equals(OrderStateEnum.Oldest.name())) {
-            order = " ASC";
-        }
+    public static ArrayList<VideoFolderModel> getVideoFolders(Context context, String order) {
         ArrayList<VideoFolderModel> videoFolders = new ArrayList<>();
         HashMap<String, Integer> folderVideoCountMap = new HashMap<>();
         HashSet<String> folderPaths = new HashSet<>();
         Uri uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         String[] projection = {MediaStore.Video.Media.DATA};
-        String sortByOrder = MediaStore.Files.FileColumns.DATE_TAKEN + order;
-        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, sortByOrder);
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, order);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 String path = cursor.getString(0);
