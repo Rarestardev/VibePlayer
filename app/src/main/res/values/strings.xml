@@ -28,4 +28,9 @@
     <string name="btn_pause_download">Pause</string>
     <string name="srt">SRT</string>
     <string name="noResult">No Result</string>
+    <string name="displayMode">Folder display Mode</string>
+    <string name="textSize">Text Size (sp)</string>
+    <string name="textColor">Text Color</string>
+    <string name="SystemDefault">System Default</string>
+    <string name="lightMode">Light Mode</string>
 </resources>

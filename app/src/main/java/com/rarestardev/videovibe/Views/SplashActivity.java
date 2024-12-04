@@ -3,6 +3,7 @@ package com.rarestardev.videovibe.Views;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,10 +12,12 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.rarestardev.videovibe.R;
+import com.rarestardev.videovibe.Utilities.Constants;
 
 /**
  * This activity for custom splash.
@@ -35,7 +38,18 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         CheckPermission();
+    }
 
+    private void setTheme() {
+        SharedPreferences prefs = getSharedPreferences(Constants.PREFS_THEME, MODE_PRIVATE);
+        int theme = prefs.getInt(Constants.KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        if (theme != 0) {
+            AppCompatDelegate.setDefaultNightMode(theme);
+        } else {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(Constants.KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            editor.apply();
+        }
     }
 
     private void CheckPermission() {
@@ -85,7 +99,7 @@ public class SplashActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
+                setTheme();
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);

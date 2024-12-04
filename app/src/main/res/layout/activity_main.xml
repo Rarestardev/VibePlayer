@@ -49,15 +49,6 @@
                 android:foreground="?selectableItemBackgroundBorderless"
                 android:src="@drawable/icon_search" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageView_changeLayout"
-                android:layout_width="@dimen/iconSize"
-                android:layout_height="@dimen/iconSize"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/imageView_search"
-                android:foreground="?selectableItemBackgroundBorderless"
-                android:src="@drawable/icon_view_quilt" />
-
 
         </RelativeLayout>
 

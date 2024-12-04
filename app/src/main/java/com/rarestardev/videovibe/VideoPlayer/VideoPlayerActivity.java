@@ -3,6 +3,7 @@ package com.rarestardev.videovibe.VideoPlayer;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -46,6 +47,7 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.common.collect.ImmutableList;
 import com.rarestardev.videovibe.Listener.SubtitleFilesSaveState;
 import com.rarestardev.videovibe.R;
+import com.rarestardev.videovibe.Utilities.Constants;
 import com.rarestardev.videovibe.Utilities.FileFormater;
 import com.rarestardev.videovibe.databinding.ActivityVideoPlayerBinding;
 import com.rarestardev.videovibe.databinding.CustomPlaybackViewBinding;
@@ -135,6 +137,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         player = new ExoPlayer.Builder(this).build();
         binding.exoplayerView.setPlayer(player);
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleDetector());
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.PREFS_NUMBER,MODE_PRIVATE);
+        int subtitleTextSize = sharedPreferences.getInt(Constants.KEY_SELECTED_NUMBER,15);
+        if (subtitleTextSize != 0){
+            playbackViewBinding.tvSubtitle.setTextSize(subtitleTextSize);
+        }
 
 
         initializePlayer();

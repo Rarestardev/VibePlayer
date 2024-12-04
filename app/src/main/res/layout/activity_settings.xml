@@ -1,10 +1,358 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="?colorPrimary"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Views.SettingsActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorPrimary"
+        tools:context=".Views.SettingsActivity">
+
+        <RelativeLayout
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/actionBarColor"
+            android:paddingStart="@dimen/layoutPadding"
+            android:paddingEnd="@dimen/layoutPadding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/backActivity"
+                android:layout_width="@dimen/iconSize"
+                android:layout_height="@dimen/iconSize"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/icon_back" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@id/backActivity"
+                android:text="@string/settings"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/faq"
+                android:layout_width="@dimen/iconSize"
+                android:layout_height="@dimen/iconSize"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/icon_help" />
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/layoutPadding"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/action_bar">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_dialog_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/layoutPadding">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/displayMode"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        app:dividerColor="@color/button_color" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardViewList"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:foreground="?selectableItemBackgroundBorderless"
+                            app:cardBackgroundColor="@color/button_color"
+                            app:cardCornerRadius="8dp">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="10dp">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/icon_list_view" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="10dp"
+                                    android:text="@string/listview"
+                                    android:textSize="12sp" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.cardview.widget.CardView>
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="20dp" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardViewGrid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:foreground="?selectableItemBackgroundBorderless"
+                            app:cardBackgroundColor="@color/cardBgColor"
+                            app:cardCornerRadius="8dp">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="10dp">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:padding="3dp"
+                                    android:src="@drawable/icon_grid_view" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="10dp"
+                                    android:text="@string/gridview"
+                                    android:textSize="12sp" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/custom_dialog_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/layoutPadding">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/orderBy"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        app:dividerColor="@color/button_color" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnNewest"
+                            android:layout_width="140dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/newest"
+                            android:textColor="?android:textColor"
+                            app:backgroundTint="@color/button_color"
+                            app:cornerRadius="8dp"
+                            app:strokeColor="?iconTint"
+                            app:strokeWidth="1dp" />
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="20dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnOldest"
+                            android:layout_width="140dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/oldest"
+                            android:textColor="?android:textColor"
+                            app:backgroundTint="@color/cardBgColor"
+                            app:cornerRadius="8dp"
+                            app:strokeColor="?iconTint"
+                            app:strokeWidth="1dp" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <Switch
+                    android:id="@+id/videoShowPathSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/custom_dialog_bg"
+                    android:checked="true"
+                    android:padding="@dimen/layoutPadding"
+                    android:splitTrack="false"
+                    android:text="@string/showPathVideos"
+                    android:textStyle="bold"
+                    android:thumbTint="@color/button_color" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/custom_dialog_bg"
+                    android:padding="@dimen/layoutPadding">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subtitle"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        app:dividerColor="@color/button_color"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/textSize"
+                        app:layout_constraintBottom_toBottomOf="@id/textSizeNumberPicker"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/textSizeNumberPicker" />
+
+                    <NumberPicker
+                        android:id="@+id/textSizeNumberPicker"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="20dp"
+                        android:soundEffectsEnabled="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/textColor"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/colorRecycler"
+                        app:layout_constraintBottom_toBottomOf="@id/colorRecycler" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/colorRecycler"
+                        android:layout_width="200dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal"
+                        android:scrollbars="none"
+                        app:layout_constraintEnd_toEndOf="@id/textSizeNumberPicker"
+                        app:layout_constraintTop_toBottomOf="@id/textSizeNumberPicker" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/layoutPadding"
+                    android:background="@drawable/custom_dialog_bg"
+                    android:layout_marginTop="10dp">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:id="@+id/rbNightMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:padding="10dp"
+                            android:text="@string/nightMode" />
+
+                        <RadioButton
+                            android:id="@+id/rbLightMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lightMode"
+                            android:padding="10dp" />
+
+                        <RadioButton
+                            android:id="@+id/rbSystemDefault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/SystemDefault"
+                            android:padding="10dp" />
+
+                    </RadioGroup>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"/>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

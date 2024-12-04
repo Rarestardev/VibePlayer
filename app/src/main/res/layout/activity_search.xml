@@ -14,6 +14,7 @@
         android:layout_height="@dimen/iconSize"
         android:layout_marginTop="10dp"
         android:src="@drawable/icon_back"
+        android:background="?selectableItemBackgroundBorderless"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
