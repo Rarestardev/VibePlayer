@@ -19,4 +19,14 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#94555454</color>
+
+
+    <color name="subtitleColor1">#F8F7F7</color>
+    <color name="subtitleColor2">#000000</color>
+    <color name="subtitleColor3">#F80505</color>
+    <color name="subtitleColor4">#FFBF00</color>
+    <color name="subtitleColor5">#0027FF</color>
+    <color name="subtitleColor6">#00FF0A</color>
+    <color name="subtitleColor7">#00D7F2</color>
+    <color name="subtitleColor8">#673AB7</color>
 </resources>

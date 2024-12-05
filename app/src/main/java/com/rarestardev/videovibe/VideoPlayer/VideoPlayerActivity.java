@@ -24,7 +24,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +48,7 @@ import com.rarestardev.videovibe.Listener.SubtitleFilesSaveState;
 import com.rarestardev.videovibe.R;
 import com.rarestardev.videovibe.Utilities.Constants;
 import com.rarestardev.videovibe.Utilities.FileFormater;
+import com.rarestardev.videovibe.Utilities.SecurePreferences;
 import com.rarestardev.videovibe.databinding.ActivityVideoPlayerBinding;
 import com.rarestardev.videovibe.databinding.CustomPlaybackViewBinding;
 import com.rarestardev.videovibe.databinding.SwipeZoomDesignBinding;
@@ -56,6 +56,7 @@ import com.rarestardev.videovibe.databinding.SwipeZoomDesignBinding;
 import java.util.List;
 
 public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFilesSaveState {
+
     private ActivityVideoPlayerBinding binding;
     private CustomPlaybackViewBinding playbackViewBinding;
     private SwipeZoomDesignBinding swipeZoomDesignBinding;
@@ -68,6 +69,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
     ControlsMode controlsMode;
     private MediaItem mediaItem;
     private CountDownTimer countDownTimer;
+    private SecurePreferences securePreferences;
 
     private enum ControlsMode {LOCK, FULLSCREEN}
 
@@ -95,6 +97,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video_player);
         playbackViewBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.custom_playback_view, binding.parent, true);
         swipeZoomDesignBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.swipe_zoom_design, binding.parent, true);
+
+        securePreferences = new SecurePreferences(this);
 
         checkAndPauseMusic();
 
@@ -142,6 +146,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
         int subtitleTextSize = sharedPreferences.getInt(Constants.KEY_SELECTED_NUMBER,15);
         if (subtitleTextSize != 0){
             playbackViewBinding.tvSubtitle.setTextSize(subtitleTextSize);
+        }
+
+        int subtitleColor = securePreferences.getSecureInt(Constants.PREFS_COLOR, Constants.PREFS_COLOR_KEY);
+        if (subtitleColor != 0){
+            playbackViewBinding.tvSubtitle.setTextColor(subtitleColor);
         }
 
 
@@ -238,6 +247,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
             Log.d(LOG, "SubtitlePath : " + path);
             subtitlePath = path;
             addSubtitle();
+            Toast.makeText(this, "Subtitle added", Toast.LENGTH_SHORT).show();
         } else {
             Log.e(LOG, "Path isEmpty");
         }
@@ -468,22 +478,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements SubtitleFi
     @SuppressLint("Range")
     private void onClickPlayerViews() {
         playbackViewBinding.videoMore.setOnClickListener(view -> {
-            PopupMenu popupMenu = new PopupMenu(VideoPlayerActivity.this, playbackViewBinding.videoMore);
-            popupMenu.getMenuInflater().inflate(R.menu.settings_video_player_menu, popupMenu.getMenu());
-            popupMenu.setOnMenuItemClickListener(menuItem -> {
-                if (menuItem.getItemId() == R.id.subtitle) {
-                    SubtitleDialog subtitleDialog = new SubtitleDialog(VideoPlayerActivity.this, this);
-                    subtitleDialog.getWindow().setGravity(Gravity.BOTTOM);
-                    subtitleDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    subtitleDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    subtitleDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-                    subtitleDialog.setCancelable(false);
-                    subtitleDialog.show();
-                }
-                return true;
-            });
-            popupMenu.show();
+            SubtitleDialog subtitleDialog = new SubtitleDialog(VideoPlayerActivity.this, this);
+            subtitleDialog.getWindow().setGravity(Gravity.BOTTOM);
+            subtitleDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            subtitleDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            subtitleDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            subtitleDialog.setCancelable(false);
+            subtitleDialog.show();
         });
+
         playbackViewBinding.videoBack.setOnClickListener(view -> {
             if (player != null) {
                 player.release();

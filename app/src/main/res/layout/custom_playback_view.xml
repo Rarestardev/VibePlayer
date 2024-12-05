@@ -120,7 +120,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
                     android:foreground="?selectableItemBackgroundBorderless"
-                    android:src="@drawable/more"
+                    android:src="@drawable/icon_subtitles"
                     app:tint="@color/white" />
 
             </LinearLayout>

@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private void initDefaultDataOnSettings() {
         String Layout = securePreferences.getSecureString(Constants.PREF_LAYOUT_MANAGER, Constants.PREF_LAYOUT_MANAGER_KEY);
         String orderState = securePreferences.getSecureString(Constants.PREF_ORDER_VIEW, Constants.PREF_ORDER_VIEW_KEY);
+        int color = securePreferences.getSecureInt(Constants.PREFS_COLOR, Constants.PREFS_COLOR_KEY);
+        if (color == 0) {
+            securePreferences.saveSecureInt(Constants.PREFS_COLOR, Constants.PREFS_COLOR_KEY, getColor(R.color.subtitleColor4));
+        }
 
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.PREFS_NUMBER, MODE_PRIVATE);
         int subtitleTextSize = sharedPreferences.getInt(Constants.KEY_SELECTED_NUMBER, 0);

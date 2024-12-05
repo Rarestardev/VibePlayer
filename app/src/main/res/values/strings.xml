@@ -33,4 +33,6 @@
     <string name="textColor">Text Color</string>
     <string name="SystemDefault">System Default</string>
     <string name="lightMode">Light Mode</string>
+    <string name="subtitleTextDisplay">Your Subtitle</string>
+    <string name="theme">Theme</string>
 </resources>

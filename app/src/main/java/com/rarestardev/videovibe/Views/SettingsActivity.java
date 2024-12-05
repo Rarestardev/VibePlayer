@@ -2,21 +2,34 @@ package com.rarestardev.videovibe.Views;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.PopupMenu;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.rarestardev.videovibe.Adapters.SubtitleColorAdapter;
 import com.rarestardev.videovibe.R;
 import com.rarestardev.videovibe.Utilities.Constants;
 import com.rarestardev.videovibe.Utilities.SecurePreferences;
 import com.rarestardev.videovibe.databinding.ActivitySettingsBinding;
 
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Rarestardev
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     private ActivitySettingsBinding binding;
     private SecurePreferences securePreferences;
     private SharedPreferences sharedPreferences;
+    private final ArrayList<Integer> colorList = new ArrayList<>();
+
+    private int textSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +41,35 @@ public class SettingsActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Constants.PREFS_NUMBER, MODE_PRIVATE);
         securePreferences = new SecurePreferences(this);
 
+        setColorOnSubtitle();
         ViewLayoutManager();
         ViewOrderHandle();
         setSubtitleTextSize();
         SetThemeStateManager();
+
+
+        // this is demo description for my app.
+        final String appDesc = "This powerful video player allows you to play all your video files with high quality. Key features include:\n" +
+                "\n" +
+                " . Play and pause videos\n" +
+                "\n" +
+                " . Fast forward and rewind videos\n" +
+                "\n" +
+                " . Adjust sound and screen size\n" +
+                "\n" +
+                " . Support for various video formats\n" +
+                "\n" +
+                " . Subtitle support";
+
+
+        binding.faq.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Description");
+            builder.setMessage(appDesc);
+            builder.setCancelable(false);
+            builder.setPositiveButton("Thanks!", (dialogInterface, i) -> dialogInterface.dismiss());
+            builder.show();
+        });
 
     }
 
@@ -48,13 +86,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         binding.radioGroupTheme.setOnCheckedChangeListener((group, checkedId) -> {
             SharedPreferences.Editor editor = prefs.edit();
-            if (checkedId == binding.rbLightMode.getId()){
+            if (checkedId == binding.rbLightMode.getId()) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 editor.putInt(Constants.KEY_THEME, AppCompatDelegate.MODE_NIGHT_NO);
-            }else if (checkedId == binding.rbNightMode.getId()){
+            } else if (checkedId == binding.rbNightMode.getId()) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 editor.putInt(Constants.KEY_THEME, AppCompatDelegate.MODE_NIGHT_YES);
-            }else if (checkedId == binding.rbSystemDefault.getId()){
+            } else if (checkedId == binding.rbSystemDefault.getId()) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 editor.putInt(Constants.KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
             }
@@ -63,24 +101,55 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setSubtitleTextSize() {
-        int textSize = sharedPreferences.getInt(Constants.KEY_SELECTED_NUMBER, 0);
-
-        binding.textSizeNumberPicker.setMinValue(0);
-        binding.textSizeNumberPicker.setMaxValue((50 - 15) / 5);
-        String[] displayedValues = new String[(50 - 15) / 5 + 1];
-        for (int i = 0; i <= (50 - 15) / 5; i++) {
-            displayedValues[i] = String.valueOf(15 + (i * 5));
+        textSize = sharedPreferences.getInt(Constants.KEY_SELECTED_NUMBER, 0);
+        if (textSize != 0) {
+            binding.textSizeNumberPicker.setText(String.valueOf(textSize));
+            binding.subtitleDisplay.setTextSize(textSize);
         }
-        binding.textSizeNumberPicker.setDisplayedValues(displayedValues);
 
-        binding.textSizeNumberPicker.setValue(textSize);
+        binding.textSizeNumberPicker.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(this, view);
+            for (int i = 15; i <= 50; i += 5) {
+                popupMenu.getMenu().add(String.valueOf(i));
+            }
 
-        binding.textSizeNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            int selectedNumber = 15 + (newVal * 5);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(Constants.KEY_SELECTED_NUMBER, selectedNumber);
-            editor.apply();
+            popupMenu.show();
+
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                String text = (String) menuItem.getTitle();
+                textSize = Integer.parseInt(text);
+                binding.textSizeNumberPicker.setText(text);
+                binding.subtitleDisplay.setTextSize(textSize);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(Constants.KEY_SELECTED_NUMBER, textSize);
+                editor.apply();
+                return true;
+            });
         });
+    }
+
+    private void setColorOnSubtitle() {
+        int subtitleColor = securePreferences.getSecureInt(Constants.PREFS_COLOR, Constants.PREFS_COLOR_KEY);
+        binding.subtitleDisplay.setTextColor(subtitleColor);
+
+        binding.colorRecycler.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false));
+
+        colorList.add(getColor(R.color.subtitleColor1));
+        colorList.add(getColor(R.color.subtitleColor2));
+        colorList.add(getColor(R.color.subtitleColor3));
+        colorList.add(getColor(R.color.subtitleColor4));
+        colorList.add(getColor(R.color.subtitleColor5));
+        colorList.add(getColor(R.color.subtitleColor6));
+        colorList.add(getColor(R.color.subtitleColor7));
+        colorList.add(getColor(R.color.subtitleColor8));
+
+        SubtitleColorAdapter adapter = new SubtitleColorAdapter(colorList, color -> {
+            binding.subtitleDisplay.setTextColor(color);
+            securePreferences.saveSecureInt(Constants.PREFS_COLOR, Constants.PREFS_COLOR_KEY, color);
+        }, this);
+
+        binding.colorRecycler.setAdapter(adapter);
+        binding.colorRecycler.setHasFixedSize(true);
     }
 
     private void ViewLayoutManager() {
