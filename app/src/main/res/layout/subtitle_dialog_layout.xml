@@ -71,6 +71,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvNotSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/subtitleNotFound"
+                android:textAlignment="gravity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvStatus" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/showFolderRecyclerView"
                 android:layout_width="match_parent"

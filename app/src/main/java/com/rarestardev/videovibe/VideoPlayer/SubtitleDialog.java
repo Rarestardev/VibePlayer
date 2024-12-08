@@ -21,12 +21,24 @@ import com.rarestardev.videovibe.databinding.SubtitleDialogLayoutBinding;
 
 import java.util.List;
 
+/**
+ * This class(Custom Dialog) look for subtitles and if
+ * found,the list will be filled with folders that have subtitles,
+ * and by clicking on the folders ,
+ * a list of subtitles will be opened in the folder,
+ * which will be added to the exoVideo player after clicked
+ * on the subtitles.
+ *
+ * @author Rarestar
+ */
+
 public class SubtitleDialog extends Dialog {
 
     private final SubtitleDialogLayoutBinding binding;
     private List<SubtitleFile> subtitleFiles;
-    private final SubtitleFilesSaveState state;
+    private final SubtitleFilesSaveState state; // interface for send subtitle path to video player activity
 
+    // init interface with default constructor
     public SubtitleDialog(@NonNull Context context, SubtitleFilesSaveState state) {
         super(context);
         this.state = state;
@@ -39,6 +51,8 @@ public class SubtitleDialog extends Dialog {
         super.onCreate(savedInstanceState);
         SetSubtitle();
         binding.closest.setOnClickListener(view -> dismiss());
+
+        // if subtitle recycler is visibility true (off) else hide the back Image view
         binding.back.setOnClickListener(view -> {
             if (binding.showSubtitleRecyclerView.getVisibility() == View.VISIBLE) {
                 binding.showSubtitleRecyclerView.setVisibility(View.GONE);
@@ -49,14 +63,26 @@ public class SubtitleDialog extends Dialog {
         });
     }
 
+    // found subtitle from storage and set folders(SRT) on RecyclerView
     private void SetSubtitle() {
         binding.showFolderRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Subtitle finder is static class for found folder subtitle and subtitle files for added Video player
         List<SubtitleFolder> foldersWithSubtitles = SubtitleFinder.getSubtitleFolders(getContext());
-        SubtitleFolderAdapter subtitleFolderAdapter = new SubtitleFolderAdapter(foldersWithSubtitles, this::GetSubtitleFiles);
-        binding.showFolderRecyclerView.setAdapter(subtitleFolderAdapter);
-        binding.setStatus("Subtitle");
+        if (foldersWithSubtitles.isEmpty()){
+            // if subtitle not found and list is empty hide recycler view and show textView subtitle not found
+            binding.tvNotSubtitle.setVisibility(View.VISIBLE);
+            binding.showFolderRecyclerView.setVisibility(View.GONE);
+        }else {
+            binding.tvNotSubtitle.setVisibility(View.GONE);
+            binding.showFolderRecyclerView.setVisibility(View.VISIBLE);
+            SubtitleFolderAdapter subtitleFolderAdapter = new SubtitleFolderAdapter(foldersWithSubtitles, this::GetSubtitleFiles);
+            binding.showFolderRecyclerView.setAdapter(subtitleFolderAdapter);
+            binding.setStatus("Subtitle");
+        }
     }
 
+    // get Subtitle with folder name
     private void GetSubtitleFiles(String folder) {
         binding.setStatus(folder);
         binding.showSubtitleRecyclerView.setVisibility(View.VISIBLE);
@@ -75,6 +101,7 @@ public class SubtitleDialog extends Dialog {
 
             binding.showSubtitleRecyclerView.setAdapter(subtitleFilesAdapter);
         } else {
+            // on back state layout subtitle file clear on List for clean storage
             subtitleFiles.clear();
         }
     }

@@ -35,4 +35,5 @@
     <string name="lightMode">Light Mode</string>
     <string name="subtitleTextDisplay">Your Subtitle</string>
     <string name="theme">Theme</string>
+    <string name="subtitleNotFound">Subtitles not found!</string>
 </resources>
