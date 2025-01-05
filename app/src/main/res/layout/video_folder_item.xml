@@ -22,7 +22,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/iconSize"
         android:layout_height="@dimen/iconSize"
-        android:src="@drawable/baseline_play_circle_filled_24"
+        android:src="@drawable/icon_play_circle_filled"
         app:layout_constraintStart_toStartOf="@id/folderIcon"
         app:layout_constraintEnd_toEndOf="@id/folderIcon"
         app:layout_constraintTop_toTopOf="@id/folderIcon"

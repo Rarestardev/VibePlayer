@@ -15,6 +15,25 @@
 
     <style name="Theme.VideoVibe" parent="Base.Theme.VideoVibe" />
 
+
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabMode">fixed</item>
+        <item name="tabIconTint">@color/iconTintLightMode</item>
+        <item name="tabTextColor">@color/black</item>
+        <item name="tabIndicatorAnimationDuration">3</item>
+        <item name="tabIndicatorColor">@color/button_color</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabRippleColor">@color/black_light</item>
+        <item name="tabSelectedTextColor">@color/button_color</item>
+    </style>
+
+    <style name="TabLayoutTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/normalTextSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+
     <style name="TransparentStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -29,8 +48,10 @@
     </style>
 
     <color name="cardBgColor">#CCCCCC</color>
-    <color name="dialog_bg">#CAC8C8</color>
+    <color name="dialog_bg">#DBD9D9</color>
     <color name="actionBarColor">#DCDCDC</color>
+    <color name="tabUnselectedColor">#838282</color>
+    <color name="tabSelectedColor">#141414</color>
 
     <style name="VideoPlayerIndicator" parent="LoadingProgressBar" />
 

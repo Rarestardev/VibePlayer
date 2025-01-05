@@ -51,7 +51,7 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/baseline_pause_24"
+                    android:src="@drawable/icon_pause"
                     tools:ignore="ContentDescription" />
 
                 <TextView

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.rarestardev.videovibe'
+    namespace 'com.rarestardev.vibeplayer'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.rarestardev.videovibe"
+        applicationId "com.rarestardev.vibeplayer"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -56,6 +56,9 @@ dependencies {
     // Glide
     implementation libs.glide
 
-    // security pref
-    implementation libs.security.crypto
+    // https://mvnrepository.com/artifact/com.github.chrisbanes/PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    implementation 'androidx.room:room-runtime:2.4.2'
+    annotationProcessor 'androidx.room:room-compiler:2.4.2'
 }

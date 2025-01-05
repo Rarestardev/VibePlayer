@@ -4,6 +4,6 @@
 
     <solid android:color="@color/dialog_bg"/>
 
-    <corners android:radius="16dp"/>
+    <corners android:radius="8dp"/>
 
 </shape>

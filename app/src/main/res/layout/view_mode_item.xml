@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/modeLayout"
+    android:layout_width="@dimen/layout_view_width"
+    android:layout_height="@dimen/layout_view_height"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:foreground="?selectableItemBackgroundBorderless"
+    app:cardBackgroundColor="@color/cardBgColor"
+    app:cardCornerRadius="8dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewIcon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="1dp"
+            tools:src="@drawable/ic_detail_list" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvModeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            tools:text="@string/detailView" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

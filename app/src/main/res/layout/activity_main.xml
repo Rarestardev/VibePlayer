@@ -12,7 +12,7 @@
         <RelativeLayout
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="56dp"
             android:background="@color/actionBarColor"
             android:padding="@dimen/layoutPadding"
             app:layout_constraintEnd_toEndOf="parent"
@@ -24,20 +24,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-black"
                 android:text="@string/app_name"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 tools:ignore="RelativeOverlap" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageView_settings"
-                android:layout_width="@dimen/iconSize"
-                android:layout_height="@dimen/iconSize"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:foreground="?selectableItemBackgroundBorderless"
-                android:src="@drawable/icon_settings" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageView_search"
@@ -45,67 +36,33 @@
                 android:layout_height="@dimen/iconSize"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="15dp"
-                android:layout_toStartOf="@id/imageView_settings"
+                android:layout_alignParentEnd="true"
                 android:foreground="?selectableItemBackgroundBorderless"
                 android:src="@drawable/icon_search" />
 
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/video_view_layout"
+        <FrameLayout
+            android:id="@+id/fragment_container_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/action_bar"
+            app:layout_constraintBottom_toTopOf="@id/tabLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_layout_height"
+            android:background="@color/actionBarColor"
+            style="@style/TabLayoutStyle"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/action_bar">
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:padding="@dimen/layoutPadding"
-                android:scrollbars="vertical"
-                android:visibility="visible" />
-
-        </RelativeLayout>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/warningPermissionLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notPermission" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAccessPermission"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:background="#889B9B9B"
-                android:foreground="?selectableItemBackgroundBorderless"
-                android:padding="5dp"
-                android:text="@string/giveAccess"
-                android:textAllCaps="true"
-                android:textSize="16sp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

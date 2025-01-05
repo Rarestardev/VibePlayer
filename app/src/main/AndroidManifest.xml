@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -15,15 +16,24 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:allowBackup="false"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/video_vibe_icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/video_vibe_icon"
         android:supportsRtl="false"
         android:theme="@style/Theme.VideoVibe"
         tools:targetApi="31">
+        <activity
+            android:name=".Views.ImagePlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Views.ImageViewerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Views.settings.SubtitleSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Views.settings.AppThemeSettingsActivity"
+            android:exported="false" />
         <activity
             android:name=".Views.SearchActivity"
             android:exported="false" />
@@ -37,9 +47,6 @@
             android:name=".Views.FolderVideosActivity"
             android:exported="false" />
         <activity
-            android:name=".Views.SettingsActivity"
-            android:exported="false" />
-        <activity
             android:name=".Views.MainActivity"
             android:exported="false" />
         <activity
@@ -51,6 +58,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

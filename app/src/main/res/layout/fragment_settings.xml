@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="3dp"
+        android:scrollbars="vertical"
+        tools:context=".TabFragments.SettingsFragment">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textAlignment="gravity"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewModeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/video_folder_item_shape"
+                android:foreground="?selectableItemBackgroundBorderless">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/viewModeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableStart="@drawable/icon_view_mode"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:text="@string/viewMode"
+                    android:textAlignment="gravity"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/viewModeIcon"
+                    android:layout_width="@dimen/iconSize"
+                    android:layout_height="@dimen/iconSize"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_forward"
+                    app:layout_constraintBottom_toBottomOf="@id/viewModeText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/viewModeText" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/viewModeRecycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:scrollbars="none"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewModeText"
+                    tools:itemCount="3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSubtitleSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/video_folder_item_shape"
+                android:drawableStart="@drawable/icon_subtitles"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="15dp"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/subtitle"
+                android:textAlignment="gravity"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAppTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/video_folder_item_shape"
+                android:drawableStart="@drawable/icon_invert_colors"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="15dp"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/theme"
+                android:textAlignment="gravity"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvClearCache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/video_folder_item_shape"
+                android:drawableStart="@drawable/ic_clear_cache"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="15dp"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/clearCache"
+                android:textAlignment="gravity"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvInfoApp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/video_folder_item_shape"
+                android:drawableStart="@drawable/ic_contact_support"
+                android:drawableEnd="@drawable/ic_forward"
+                android:drawablePadding="15dp"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/features"
+                android:textAlignment="gravity"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/video_folder_item_shape"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:padding="10dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/icon_version_code"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/app_version"
+                    android:textAlignment="gravity"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvVersionCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap"
+                    tools:text="v1.0" />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+</layout>

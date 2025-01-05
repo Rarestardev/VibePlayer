@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="sans-serif-thin"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:title="sans-serif-sans-serif-smallcaps"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:title="sans-serif"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:title="sans-serif-light"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:title="sans-serif-condensed-medium"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:title="sans-serif-condensed"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:title="monospace"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:title="cursive"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:title="casual"
+        tools:ignore="HardcodedText" />
+
+</menu>

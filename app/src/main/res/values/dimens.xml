@@ -8,4 +8,10 @@
     <dimen name="playerIconSize">40dp</dimen>
     <dimen name="playerIconPadding">4dp</dimen>
 
+    <dimen name="tab_layout_height">60dp</dimen>
+
+
+    <dimen name="layout_view_width">70dp</dimen>
+    <dimen name="layout_view_height">90dp</dimen>
+
 </resources>

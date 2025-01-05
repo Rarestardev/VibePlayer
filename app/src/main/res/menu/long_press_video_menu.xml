@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/openVideo"
+        android:title="@string/OpenVideo"/>
+
+    <item android:id="@+id/saveVideo"
+        android:title="@string/saveVideos"/>
+
+    <item android:id="@+id/detailVideo"
+        android:title="@string/detail"/>
+
+</menu>
