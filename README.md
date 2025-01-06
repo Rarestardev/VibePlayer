@@ -22,6 +22,17 @@ VibePlayer is a new way to experience and manage your videos and images. With it
 - **User-friendly Interface:** Simple, intuitive, and smooth interface.
 - **Support for All Video Formats:** Play any video format without worry.
 
+ ## Dependencies
+
+This project uses the following open-source libraries:
+
+- **Room**: A library for database management, under the [Apache 2.0 License](https://opensource.org/licenses/Apache-2.0).
+- **Glide**: An image loading and caching library, under the [MIT License](https://opensource.org/licenses/MIT).
+- **ExoPlayer**: A media player for Android, under the [Apache 2.0 License](https://opensource.org/licenses/Apache-2.0).
+
+Please refer to the respective licenses for more information.
+
+
 ## Installation
 
 1. Download the APK from [this link](#). (You can update this once you have the link)
