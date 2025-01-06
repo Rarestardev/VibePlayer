@@ -54,6 +54,12 @@ Please refer to the respective licenses for more information.
 - **Glide** for load thumbnail images and videos
 - **Exo Player** for played videos and subtitle
 
+ ## Connect with Me
+
+- [Instagram](https://www.instagram.com/rarestar.dev)
+- [Telegram](https://t.me/Rarestar_dev)
+
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
