@@ -50,7 +50,7 @@ Please refer to the respective licenses for more information.
 ## Technologies Used
 
 - **Android SDK**
-- **Room databse** for local storage
+- **Room database** for local storage
 - **Glide** for load thumbnail images and videos
 - **Exo Player** for played videos and subtitle
 
