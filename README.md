@@ -35,7 +35,7 @@ Please refer to the respective licenses for more information.
 
 ## Installation
 
-1. Download the APK from the [Release Page](https://github.com/Rarestardev/VibePlayer/releases/download/v1.0/your-app.apk).
+1. Download the APK from the [Release Page](https://github.com/Rarestardev/VibePlayer/releases/download/release-1.0.0/Vibe.Player.apk).
 2. Enable installation from unknown sources in your device settings.
 3. Install the app.
 
