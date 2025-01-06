@@ -4,6 +4,13 @@ VibePlayer is a new way to experience and manage your videos and images. With it
 
 ## Screenshots
 
+![VibePlayer Screenshot](Screenshot_2025-01-06-18-35-29-749_com.rarestardev.vibeplayer.jpg)
+![VibePlayer Screenshot](Screenshot_2025-01-06-18-34-58-535_com.rarestardev.vibeplayer.jpg)
+![VibePlayer Screenshot](Screenshot_2025-01-06-18-36-06-647_com.rarestardev.vibeplayer.jpg)
+![VibePlayer Screenshot](Screenshot_2025-01-06-18-36-24-526_com.rarestardev.vibeplayer.jpg)
+![VibePlayer Screenshot](Screenshot_2025-01-06-18-42-14-705_com.rarestardev.vibeplayer.jpg)
+![VibePlayer Screenshot](Screenshot_2025-01-06-18-43-59-603_com.rarestardev.vibeplayer.jpg)
+
 ## Features
 
 - **Video and Image Playback:** Enjoy videos and images with high quality and no interruptions.
