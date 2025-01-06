@@ -4,9 +4,9 @@ VibePlayer is a new way to experience and manage your videos and images. With it
 
 ## Screenshots
 
-<img src="Screenshot_2025-01-06-18-42-14-705_com.rarestardev.vibeplayer.jpg" width="800" />
+<img src="Screenshot_2025-01-06-18-42-14-705_com.rarestardev.vibeplayer.jpg" width="400" /> <img src="Screenshot_2025-01-06-19-36-02-251_com.rarestardev.vibeplayer.jpg" width="400" />
 
-<img src="Screenshot_2025-01-06-18-43-59-603_com.rarestardev.vibeplayer.jpg" width="200" /> <img src="Screenshot_2025-01-06-18-35-29-749_com.rarestardev.vibeplayer.jpg" width="200" /> <img src="Screenshot_2025-01-06-18-34-58-535_com.rarestardev.vibeplayer.jpg" width="200" /> <img src="Screenshot_2025-01-06-18-36-06-647_com.rarestardev.vibeplayer.jpg" width="200" /> <img src="Screenshot_2025-01-06-18-36-24-526_com.rarestardev.vibeplayer.jpg" width="200" />
+<img src="Screenshot_2025-01-06-18-43-59-603_com.rarestardev.vibeplayer.jpg" width="150" /> <img src="Screenshot_2025-01-06-18-35-29-749_com.rarestardev.vibeplayer.jpg" width="150" /> <img src="Screenshot_2025-01-06-18-34-58-535_com.rarestardev.vibeplayer.jpg" width="150" /> <img src="Screenshot_2025-01-06-18-36-06-647_com.rarestardev.vibeplayer.jpg" width="150" /> <img src="Screenshot_2025-01-06-18-36-24-526_com.rarestardev.vibeplayer.jpg" width="150" /> <img src="Screenshot_2025-01-06-19-24-28-414_com.rarestardev.vibeplayer.jpg" width="150" />
 
 ## Features
 
