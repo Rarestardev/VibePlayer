@@ -4,7 +4,7 @@ VibePlayer is a new way to experience and manage your videos and images. With it
 
 ## Screenshots
 
-![alt text](Screenshot_2025-01-06-18-35-29-749_com.rarestardev.vibeplayer.jpg){:width="300px"}
+<img src="Screenshot_2025-01-06-18-35-29-749_com.rarestardev.vibeplayer.jpg" width="300" />
 ![VibePlayer Screenshot](Screenshot_2025-01-06-18-35-29-749_com.rarestardev.vibeplayer.jpg)
 ![VibePlayer Screenshot](Screenshot_2025-01-06-18-34-58-535_com.rarestardev.vibeplayer.jpg)
 ![VibePlayer Screenshot](Screenshot_2025-01-06-18-36-06-647_com.rarestardev.vibeplayer.jpg)
